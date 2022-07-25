@@ -32,7 +32,7 @@ public:
 
 	//setter functions
 	void set_copyright(Books& b, int y, Months m, int d);
-	void c_out_in(Books& b, bool check_out);
+	void c_out_in(bool check_out);
 
 	//overload operators
 	friend::std::istream& operator>>(std::istream& is, Books& obj);
@@ -86,6 +86,7 @@ struct Transaction {
 class Library {
 	std::vector<Books> list{};
 	std::vector<Patron> user{};
+	//std::vector<Patron*> userPtrs{};		might be added later, vector of object pointers to track changes to the object without updating the vector
 	std::vector<Transaction> trans{};
 public:
 	void search_vec_b(const Books& obj);
@@ -97,7 +98,7 @@ public:
 	void print_trans();
 
 	//add functions or setter functions
-	void add_user_mf(const Patron& obj);
+	void add_user_mf(Patron& obj);
 	void add_book_mf(const Books& obj);
 	void add_trans_mf(const Transaction& obj);
 
@@ -105,7 +106,7 @@ public:
 	std::string name_return(int n);
 	void all_fees();
 
-	void check_out_book(const Books& b_obj, const Patron& u_obj);
+	void check_out_book(Books& b_obj, const Patron& u_obj);
 
 };
 

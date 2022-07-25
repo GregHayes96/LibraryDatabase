@@ -1,8 +1,11 @@
-//this is 
 #include "Header.h"
 
-
 //----------------------------------------------------------------
+//version 2
+//errors to fix
+//set fee doesnt change the data on the Library user vector. maybe make it a pointer?
+
+
 int main()
 {
 	try {
@@ -30,7 +33,7 @@ int main()
 		Patron U4("Greg", 123456);
 		add_user(U4);
 
-		Books B1("Moby dick", "P.G.Clarke", "123X", Genre::fiction);
+		Books B1("Kafka on the shore", "H.Murikami", "123X", Genre::fiction);
 		Library_info.add_book_mf(B1);
 		set_book_info(B1, 2001, Months::oct, 27, true);
 
@@ -45,6 +48,8 @@ int main()
 
 		Library_info.add_book_mf(B2);
 		Library_info.add_book_mf(B3);
+
+		//should create two transactions to be stored in vector upon book being checked out
 		Library_info.check_out_book(B2, U3);
 		Library_info.check_out_book(B3, U4);
 		Library_info.print_trans();

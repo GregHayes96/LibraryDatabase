@@ -40,8 +40,8 @@ void Books::set_copyright(Books& b, int y, Months m, int d) {
 
 //-----------------------------------------------------------------
 //returns or puts back the book
-void Books::c_out_in(Books& b, bool check_out) {
-	b.checked_out = check_out;
+void Books::c_out_in(bool check_out) {
+	this->checked_out = check_out;
 }
 
 //-----------------------------------------------------------------
@@ -85,11 +85,11 @@ Books& Books::operator!=(const Books& rhs) {
 		return *this;
 	}
 	if (this->ISBN == rhs.ISBN) {
-		std::cout << "matching ISBN" << std::endl;
+		std::cout << "matching ISBN" << std::endl << std::endl;
 		return *this;
 	}
 	else
-		std::cout << "Different ISBN" << std::endl;
+		std::cout << "Different ISBN" << std::endl << std::endl;
 }
 
 //----------------------------------------------------------------
@@ -123,7 +123,7 @@ bool is_valid(Books entry) {
 //call to set up all the values at once to set data values for class objects
 void set_book_info(Books& obj, int y, Months m, int d, bool check_out) {
 	is_valid(obj);
-	obj.c_out_in(obj, check_out);
+	obj.c_out_in(check_out);
 	obj.set_copyright(obj, y, m, d);
 	operator<<(std::cout, obj);
 }
@@ -210,7 +210,10 @@ std::string Library::name_return(int n) {
 
 //-------------------------------------------------------------------
 //member functions to add user/book object to vector in library class
-void Library::add_user_mf(const Patron& obj) {
+void Library::add_user_mf(Patron& obj) {
+	/*Patron* userPtr;
+	userPtr = &obj;
+	Library_info.userPtrs.push_back(userPtr);*/
 	Library_info.user.push_back(obj);
 }
 
@@ -238,7 +241,7 @@ void Library::print_trans() {
 }
 
 //this will check to see if the user and the book are in the database and throw an error if not
-void Library::check_out_book(const Books& b_obj, const Patron& u_obj) {
+void Library::check_out_book(Books& b_obj, const Patron& u_obj) {
 	//fist iterator to search if the book to be checked out is in the database
 	this->search_vec_b(b_obj);
 	this->search_vec_P(u_obj);
@@ -250,6 +253,8 @@ void Library::check_out_book(const Books& b_obj, const Patron& u_obj) {
 	//then check if the book is already checked out
 	if (b_obj.check_outf() == true)
 		throw "Book already out, cant be checked out twice";
+	else
+		b_obj.c_out_in(true);	//check out book now. reason for b_obj not being const
 
 	//creation of transaction after checks
 	Transaction T1(b_obj, u_obj);
