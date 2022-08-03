@@ -211,9 +211,6 @@ std::string Library::name_return(int n) {
 //-------------------------------------------------------------------
 //member functions to add user/book object to vector in library class
 void Library::add_user_mf(Patron& obj) {
-	/*Patron* userPtr;
-	userPtr = &obj;
-	Library_info.userPtrs.push_back(userPtr);*/
 	Library_info.user.push_back(obj);
 }
 
@@ -225,9 +222,20 @@ void Library::add_trans_mf(const Transaction& obj) {
 	Library_info.trans.push_back(obj);
 }
 
-//slightly verbertose but improves readability in main body of code
-void add_user(Patron obj) {
+void Library::add_user_ptr(Patron& obj) {
+	Patron* patron;
+	patron = &obj;
+	Library_info.userPtrs.push_back(patron);
+}
+
+//slightly verbertose but improves readability in main body of code 
+void add_user(Patron &obj) {
 	Library_info.add_user_mf(obj);
+	Library_info.add_user_ptr(obj);
+}
+
+void add_book(Books& obj) {
+	Library_info.add_book_mf(obj);
 }
 
 //------------------------------------------------------------------
@@ -277,15 +285,15 @@ void Library::search_vec_P(const Patron& obj) {
 
 }
 
-//should check the vector of users to find if any has a fee, if it does it will print the users who have a fee and return a vector of them
 void Library::all_fees() {
 	std::cout << "All fees owed:" << std::endl;
 	for (int i = 0; i < this->user.size(); i++) {
-
-		if (this->user[i].feef() > 0) std::cout << this->user[i].namef() << std::endl;
+		
+		if (userPtrs[i]->feef() > 0) std::cout << userPtrs[i]->namef() << std::endl;
 
 	}
 }
+
 
 //------------------------------------------------------------------
 //Transaction struct & member functions

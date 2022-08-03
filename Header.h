@@ -86,7 +86,7 @@ struct Transaction {
 class Library {
 	std::vector<Books> list{};
 	std::vector<Patron> user{};
-	//std::vector<Patron*> userPtrs{};		might be added later, vector of object pointers to track changes to the object without updating the vector
+	std::vector<Patron*> userPtrs{};	
 	std::vector<Transaction> trans{};
 public:
 	void search_vec_b(const Books& obj);
@@ -101,6 +101,7 @@ public:
 	void add_user_mf(Patron& obj);
 	void add_book_mf(const Books& obj);
 	void add_trans_mf(const Transaction& obj);
+	void add_user_ptr(Patron& obj);
 
 	//getter functions
 	std::string name_return(int n);
@@ -117,7 +118,9 @@ public:
 //essential clobal variable, must be global for all the functions to have access to it
 extern Library Library_info;
 
-void add_user(Patron obj);
+void add_user(Patron &obj);
+
+void add_book(Books& obj);
 
 void set_book_info(Books& obj, int y, Months m, int d, bool check_out);
 
